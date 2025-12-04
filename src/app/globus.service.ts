@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { of, merge, from} from 'rxjs';
 import { filter, flatMap} from 'rxjs/operators';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class GlobusService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private configService: ConfigService) {
   }
 
   getGlobus(url: string, key: string) {
@@ -149,7 +150,7 @@ export class GlobusService {
       };
       taskItemsArray.push(taskItem);
     }
-    const body = {
+    const body: any = {
       DATA_TYPE: 'transfer',
       DATA: taskItemsArray,
       submission_id: submissionId,
@@ -158,6 +159,11 @@ export class GlobusService {
       source_endpoint: selectedEndPointId,
       destination_endpoint: globusEndpoint
     };
+    
+    // Add encrypt_data flag if enabled in config
+    if (this.configService.encryptData) {
+      body.encrypt_data = true;
+    }
     const bodyString = JSON.stringify(body);
     return this.postGlobus(url, bodyString, 'Bearer ' + userOtherAccessToken);
   }
@@ -179,7 +185,7 @@ export class GlobusService {
       };
       taskItemsArray.push(taskItem);
     }
-    const body = {
+    const body: any = {
       DATA_TYPE: 'transfer',
       DATA: taskItemsArray,
       submission_id: submissionId,
@@ -188,6 +194,11 @@ export class GlobusService {
       source_endpoint: globusEndpoint,
       destination_endpoint: selectedEndpoint.id
     };
+    
+    // Add encrypt_data flag if enabled in config
+    if (this.configService.encryptData) {
+      body.encrypt_data = true;
+    }
     const bodyString = JSON.stringify(body);
     return this.postGlobus(url, bodyString, 'Bearer ' + userOtherAccessToken);
   }

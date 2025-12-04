@@ -14,5 +14,6 @@ export class ConfigService {
   globusEndpoint: string;
   includeBucketInPath: boolean;
   apiToken: string;
+  encryptData: boolean = false;
   constructor() { }
 }
