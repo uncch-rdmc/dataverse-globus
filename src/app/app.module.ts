@@ -59,6 +59,7 @@ export function load(http: HttpClient, config: ConfigService): (() => Promise<bo
             config.globusEndpoint = x.globusEndpoint;
             config.includeBucketInPath = x.includeBucketInPath;
             config.apiToken = x.apiToken;
+            config.encryptData = x.encryptData;
             resolve(true);
           }),
           catchError((x: { status: number }, caught: Observable<void>): ObservableInput<{}> => {
