@@ -150,19 +150,15 @@ export class GlobusService {
       };
       taskItemsArray.push(taskItem);
     }
-    const body: any = {
+    const body = {
       DATA_TYPE: 'transfer',
       DATA: taskItemsArray,
       submission_id: submissionId,
       notify_on_succeeded: false,
       notify_on_failed: false,
       source_endpoint: selectedEndPointId,
-      destination_endpoint: globusEndpoint
-    };
-    
-    // Add encrypt_data flag if enabled in config
-    if (this.configService.encryptData) {
-      body.encrypt_data = true;
+      destination_endpoint: globusEndpoint,
+      encrypt_data: this.configService.encryptData
     }
     const bodyString = JSON.stringify(body);
     return this.postGlobus(url, bodyString, 'Bearer ' + userOtherAccessToken);
@@ -185,19 +181,15 @@ export class GlobusService {
       };
       taskItemsArray.push(taskItem);
     }
-    const body: any = {
+    const body = {
       DATA_TYPE: 'transfer',
       DATA: taskItemsArray,
       submission_id: submissionId,
       notify_on_succeeded: true,
       notify_on_failed: true,
       source_endpoint: globusEndpoint,
-      destination_endpoint: selectedEndpoint.id
-    };
-    
-    // Add encrypt_data flag if enabled in config
-    if (this.configService.encryptData) {
-      body.encrypt_data = true;
+      destination_endpoint: selectedEndpoint.id,
+      encrypt_data: this.configService.encryptData
     }
     const bodyString = JSON.stringify(body);
     return this.postGlobus(url, bodyString, 'Bearer ' + userOtherAccessToken);
