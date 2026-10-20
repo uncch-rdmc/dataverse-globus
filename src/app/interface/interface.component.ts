@@ -78,6 +78,7 @@ export class InterfaceComponent implements OnInit {
 
       this.globusService.consentRequired.subscribe(scopes => {
           const newScopes = scopes.join(' ') + ' openid email profile';
+          sessionStorage.removeItem('pkce_code_verifier');
           this.PkceAuth = new PKCE({
               client_id: this.config.globusClientId,
               redirect_uri: this.redirectURL,
@@ -166,6 +167,7 @@ export class InterfaceComponent implements OnInit {
 
 
     getCode(callback, dvLocale) {
+        sessionStorage.removeItem('pkce_code_verifier');
         const decodedCallback = this.decodeCallback(callback);
         let state = decodedCallback + '&dvLocale=' + dvLocale;
         state = btoa(state);
